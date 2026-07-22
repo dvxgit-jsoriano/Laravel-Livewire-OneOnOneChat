@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Sunset Glow Custom Color Palette */
+    --color-bright-lemon: #f4e409;
+    --color-bright-lemon-100: #312e02;
+    --color-bright-lemon-200: #625c04;
+    --color-bright-lemon-300: #948a05;
+    --color-bright-lemon-400: #c5b807;
+    --color-bright-lemon-500: #f4e409;
+    --color-bright-lemon-600: #f8eb3a;
+    --color-bright-lemon-700: #faf06b;
+    --color-bright-lemon-800: #fbf59d;
+    --color-bright-lemon-900: #fdface;
+
+    --color-saffron: #eeba0b;
+    --color-saffron-100: #302502;
+    --color-saffron-200: #5f4a04;
+    --color-saffron-300: #8f6f07;
+    --color-saffron-400: #bf9409;
+    --color-saffron-500: #eeba0b;
+    --color-saffron-600: #f6c938;
+    --color-saffron-700: #f8d76a;
+    --color-saffron-800: #fae49c;
+    --color-saffron-900: #fdf2cd;
+
+    --color-ochre: #c36f09;
+    --color-ochre-100: #271602;
+    --color-ochre-200: #4e2d04;
+    --color-ochre-300: #754306;
+    --color-ochre-400: #9c5907;
+    --color-ochre-500: #c36f09;
+    --color-ochre-600: #f49015;
+    --color-ochre-700: #f7ac50;
+    --color-ochre-800: #f9c78a;
+    --color-ochre-900: #fce3c5;
+
+    --color-rust-brown: #a63c06;
+    --color-rust-brown-100: #210c01;
+    --color-rust-brown-200: #431802;
+    --color-rust-brown-300: #642404;
+    --color-rust-brown-400: #863005;
+    --color-rust-brown-500: #a63c06;
+    --color-rust-brown-600: #e85308;
+    --color-rust-brown-700: #f87b3c;
+    --color-rust-brown-800: #faa77d;
+    --color-rust-brown-900: #fdd3be;
+
+    --color-dark-garnet: #710000;
+    --color-dark-garnet-100: #160000;
+    --color-dark-garnet-200: #2d0000;
+    --color-dark-garnet-300: #430000;
+    --color-dark-garnet-400: #5a0000;
+    --color-dark-garnet-500: #710000;
+    --color-dark-garnet-600: #c00000;
+    --color-dark-garnet-700: #ff1010;
+    --color-dark-garnet-800: #ff6060;
+    --color-dark-garnet-900: #ffafaf;
+}
