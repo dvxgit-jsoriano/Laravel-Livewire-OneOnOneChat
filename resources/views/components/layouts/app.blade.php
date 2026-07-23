@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-slate-900 text-slate-100 antialiased">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full h-[100dvh] bg-slate-900 text-slate-100 antialiased">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title ?? config('app.name', 'Laravel Chat') }}</title>
@@ -35,8 +35,8 @@
         }
     </style>
 </head>
-<body class="h-full w-full overflow-hidden bg-slate-900 text-slate-100">
-    <main class="h-full w-full">
+<body class="h-full h-[100dvh] w-full overflow-hidden bg-slate-900 text-slate-100">
+    <main class="h-full h-[100dvh] w-full">
         {{ $slot }}
     </main>
 

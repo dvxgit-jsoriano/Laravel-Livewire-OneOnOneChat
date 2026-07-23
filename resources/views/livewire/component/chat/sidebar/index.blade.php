@@ -132,15 +132,17 @@
                         @php
                             $contact = $dm->users->firstWhere('id', '!=', $user?->id) ?? $dm->users->first();
                             $lastMsg = $dm->latestMessage;
+                            $hasUnread = ($dm->unread_messages_count ?? 0) > 0 && $activeConversationId !== $dm->id;
                         @endphp
                         <button
                             wire:key="conv-{{ $dm->id }}"
                             wire:click="selectConversation({{ $dm->id }})"
                             @click="sidebarOpen = false"
                             @class([
-                                'w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition cursor-pointer text-left',
+                                'w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition cursor-pointer text-left relative',
                                 'bg-rust-brown-400/30 border border-ochre-500/40 text-saffron-700 font-medium shadow-sm' => $activeConversationId === $dm->id,
-                                'hover:bg-dark-garnet-200 text-slate-300 hover:text-white' => $activeConversationId !== $dm->id,
+                                'bg-saffron-500/15 border-l-4 border-l-saffron-500 border-y border-r border-saffron-500/40 text-white font-bold shadow-md shadow-saffron-500/10' => $hasUnread,
+                                'hover:bg-dark-garnet-200 text-slate-300 hover:text-white' => $activeConversationId !== $dm->id && !$hasUnread,
                             ])
                         >
                             <div class="flex items-center space-x-3 truncate">
@@ -154,16 +156,29 @@
                                 </div>
                                 <div class="truncate">
                                     <div class="flex items-center space-x-1.5 truncate">
-                                        <span class="text-xs font-semibold truncate text-white">{{ $contact?->name ?? 'Contact' }}</span>
+                                        <span @class([
+                                            'text-xs truncate',
+                                            'font-bold text-bright-lemon' => $hasUnread,
+                                            'font-semibold text-white' => !$hasUnread,
+                                        ])>{{ $contact?->name ?? 'Contact' }}</span>
                                         <span class="text-[10px] text-saffron-700 font-mono truncate">@<span>{{ Str::slug($contact?->name, '') }}</span></span>
                                     </div>
-                                    <div class="text-[11px] text-ochre-800 truncate">
+                                    <div @class([
+                                        'text-[11px] truncate',
+                                        'text-slate-100 font-semibold' => $hasUnread,
+                                        'text-ochre-800' => !$hasUnread,
+                                    ])>
                                         {{ $lastMsg ? Str::limit($lastMsg->body, 28) : 'No messages yet' }}
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-[10px] text-ochre-700 whitespace-nowrap ml-2">
-                                {{ $lastMsg ? $lastMsg->created_at->format('g:i A') : '' }}
+                            <div class="flex items-center space-x-2 ml-2 flex-shrink-0">
+                                @if ($hasUnread)
+                                    <span class="w-2.5 h-2.5 rounded-full bg-bright-lemon animate-pulse shadow-sm shadow-bright-lemon" title="Unread Message"></span>
+                                @endif
+                                <div class="text-[10px] text-ochre-700 whitespace-nowrap">
+                                    {{ $lastMsg ? $lastMsg->created_at->format('g:i A') : '' }}
+                                </div>
                             </div>
                         </button>
                     @endforeach

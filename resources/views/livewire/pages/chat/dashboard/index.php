@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Index extends Component
 {
-    public int $activeConversationId = 1;
+    public ?int $activeConversationId = null;
 
     public function mount()
     {

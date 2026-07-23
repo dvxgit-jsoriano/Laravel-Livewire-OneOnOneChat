@@ -48,6 +48,13 @@ class Index extends Component
 
     public function render()
     {
+        if ($this->conversationId && Auth::check()) {
+            Message::where('conversation_id', $this->conversationId)
+                ->where('user_id', '!=', Auth::id())
+                ->whereNull('read_at')
+                ->update(['read_at' => now()]);
+        }
+
         $conversation = $this->conversationId
             ? Conversation::with(['users'])->find($this->conversationId)
             : null;

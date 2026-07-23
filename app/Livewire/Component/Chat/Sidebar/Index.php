@@ -3,6 +3,7 @@
 namespace App\Livewire\Component\Chat\Sidebar;
 
 use App\Models\Conversation;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -17,6 +18,9 @@ class Index extends Component
     public function mount(?int $activeConversationId = null)
     {
         $this->activeConversationId = $activeConversationId;
+        if ($this->activeConversationId) {
+            $this->markConversationAsRead($this->activeConversationId);
+        }
     }
 
     public function getListeners()
@@ -35,7 +39,19 @@ class Index extends Component
     public function selectConversation(int $id)
     {
         $this->activeConversationId = $id;
+        $this->markConversationAsRead($id);
         $this->dispatch('conversationSelected', conversationId: $id);
+    }
+
+    public function markConversationAsRead(int $conversationId)
+    {
+        $userId = Auth::id();
+        if ($userId) {
+            Message::where('conversation_id', $conversationId)
+                ->where('user_id', '!=', $userId)
+                ->whereNull('read_at')
+                ->update(['read_at' => now()]);
+        }
     }
 
     public function startNewChat()
@@ -109,18 +125,13 @@ class Index extends Component
                 created_at_human: $event['created_at_human'] ?? 'Just now'
             );
         }
-
-        // If receiver has no conversation selected, auto select the incoming conversation
-        if ($event && isset($event['conversation_id']) && !$this->activeConversationId) {
-            $this->selectConversation($event['conversation_id']);
-        }
     }
 
     public function render()
     {
         $user = Auth::user();
 
-        // Get 1-on-1 direct conversations for current user
+        // Get 1-on-1 direct conversations for current user, sorted by latest message (sent or received)
         $userConversations = $user
             ? $user->conversations()
                 ->where('type', 'direct')
@@ -128,7 +139,15 @@ class Index extends Component
                     $q->where('name', 'like', '%' . $this->search . '%');
                 })
                 ->with(['users', 'latestMessage'])
+                ->withCount(['messages as unread_messages_count' => function ($q) use ($user) {
+                    $q->where('user_id', '!=', $user->id)
+                      ->whereNull('read_at');
+                }])
                 ->get()
+                ->sortByDesc(function ($conversation) {
+                    return $conversation->latestMessage?->created_at?->timestamp ?? $conversation->created_at?->timestamp ?? 0;
+                })
+                ->values()
             : collect();
 
         return view('livewire.component.chat.sidebar.index', [

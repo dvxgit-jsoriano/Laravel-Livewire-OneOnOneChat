@@ -40,7 +40,7 @@
     x-init="initObserver()"
     x-on:messageSent.window="scrollToBottom(true)"
     x-on:conversationSelected.window="scrollToBottom(false)"
-    class="flex-1 flex flex-col h-full bg-[#1c0202] overflow-hidden"
+    class="flex-1 flex flex-col h-full min-h-0 bg-[#1c0202] overflow-hidden"
 >
     @php
         $currentUser = Auth::user();
@@ -49,7 +49,7 @@
     @endphp
 
     <!-- Header styled for 1-on-1 Chat -->
-    <div class="h-14 px-4 bg-dark-garnet-100 border-b border-rust-brown-300/40 flex items-center justify-between shadow-sm z-10">
+    <div class="h-14 px-4 bg-dark-garnet-100 border-b border-rust-brown-300/40 flex items-center justify-between shadow-sm z-10 flex-shrink-0">
         <div class="flex items-center space-x-3">
             <button
                 @click="sidebarOpen = !sidebarOpen"
@@ -107,7 +107,7 @@
     <!-- Messages Container -->
     <div
         x-ref="scrollContainer"
-        class="flex-1 overflow-y-auto p-4 space-y-4 bg-dark-garnet-100/90"
+        class="flex-1 overflow-y-auto p-4 space-y-4 bg-dark-garnet-100/90 min-h-0"
     >
         @if ($conversation && $messages)
             @forelse ($messages as $msg)

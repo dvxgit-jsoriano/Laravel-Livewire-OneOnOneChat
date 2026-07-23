@@ -16,10 +16,6 @@ class Index extends Component
         if (!$user) {
             return redirect()->to('/login');
         }
-
-        // Auto-select the first conversation if the user already has one
-        $firstDm = $user->conversations()->where('type', 'direct')->first();
-        $this->activeConversationId = $firstDm?->id;
     }
 
     #[On('conversationSelected')]

@@ -8,7 +8,7 @@
             setTimeout(() => this.notice = '', 3000);
         }
     }"
-    class="bg-dark-garnet-100 border-t border-rust-brown-300/40 relative"
+    class="bg-dark-garnet-100 border-t border-rust-brown-300/40 relative pb-[env(safe-area-inset-bottom,0px)]"
 >
     <!-- Text-Only Notice Alert -->
     <div
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Main Toolbar and Input Row -->
-    <div class="p-3 max-w-4xl mx-auto flex items-center space-x-2">
+    <div class="p-2 sm:p-3 max-w-4xl mx-auto flex items-center space-x-1.5 sm:space-x-2">
         <!-- Plus Button (Text-Only Notice) -->
         <button
             type="button"
@@ -56,7 +56,7 @@
         </button>
 
         <!-- Input Box Form -->
-        <form wire:submit.prevent="sendMessage" class="flex-1 flex items-center relative">
+        <form wire:submit.prevent="sendMessage" class="flex-1 min-w-0 flex items-center relative">
             <input
                 wire:model.defer="body"
                 type="text"
@@ -102,7 +102,7 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100 transform translate-y-0"
         x-transition:leave-end="opacity-0 transform translate-y-4"
-        class="bg-dark-garnet-200 border-t border-rust-brown-300/50 p-4 space-y-4 shadow-2xl max-w-4xl mx-auto rounded-t-3xl"
+        class="bg-dark-garnet-200 border-t border-rust-brown-300/50 p-4 space-y-4 shadow-2xl max-w-4xl mx-auto rounded-t-3xl max-h-[45vh] overflow-y-auto"
     >
         <!-- Drag pill -->
         <div class="w-10 h-1 bg-rust-brown-300/50 rounded-full mx-auto cursor-pointer" @click="drawerOpen = false"></div>

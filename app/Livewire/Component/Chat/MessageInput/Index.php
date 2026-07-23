@@ -49,7 +49,11 @@ class Index extends Component
 
         $this->body = '';
 
-        broadcast(new MessageSent($message))->toOthers();
+        try {
+            broadcast(new MessageSent($message))->toOthers();
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Broadcast failed: ' . $e->getMessage());
+        }
 
         $this->dispatch('messageSent');
     }
